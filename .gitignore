@@ -1,0 +1,5 @@
+# Exclude .env files
+.env
+
+# Exclude a specific folder
+2024-06-10T2000/
