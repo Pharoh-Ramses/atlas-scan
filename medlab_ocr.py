@@ -62,11 +62,4 @@ def medlab_ocr(pdf_path, dpi=300):
         return None
 
 
-# Usage
-pdf_path = '2024-06-10T2000/2022_01_19__03_655974___Eloisa_Javier___1979_09_17_.pdf'
-result = medlab_ocr(pdf_path, dpi=300)
-if result:
-    for key, value in result.items():
-        print(f"{key}: {value}")
-else:
-    print("OCR processing failed.")
+

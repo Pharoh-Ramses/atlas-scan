@@ -61,11 +61,4 @@ def cc_ocr(pdf_path, dpi=300):
         return None
 
 
-# Usage
-pdf_path = '2024-06-10T2000/00_2005864_13.pdf'
-result = cc_ocr(pdf_path, dpi=300)
-if result:
-    for key, value in result.items():
-        print(f"{key}: {value}")
-else:
-    print("OCR processing failed.")
+
