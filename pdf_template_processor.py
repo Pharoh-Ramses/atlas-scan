@@ -72,7 +72,8 @@ def create_atlas_files_table(conn):
             tested_pathogen TEXT,
             test_result TEXT,
             reported_date TEXT,
-            source TEXT
+            source TEXT,
+            folder TEXT
         )
         '''
         cursor.execute(create_table_query)
@@ -82,15 +83,15 @@ def create_atlas_files_table(conn):
         print("Error creating or updating table:", error)
 
 
-def save_to_database(conn, data, source):
+def save_to_database(conn, data, source, folder):
     try:
         cursor = conn.cursor()
         insert_query = '''
         INSERT INTO atlas_files (patient_name, date_of_birth, gender, mrn, 
                                  test_name, test_device, specimen_type, 
                                  collection_date, tested_pathogen, test_result, 
-                                 reported_date, source)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                 reported_date, source, folder)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         '''
         cursor.execute(insert_query, (
             data.get('patient_name'),
@@ -104,7 +105,8 @@ def save_to_database(conn, data, source):
             data.get('tested_pathogen'),
             data.get('test_result'),
             data.get('reported_date'),
-            source
+            source,
+            folder
         ))
         conn.commit()
         logging.info(f"Data saved to database for {data.get('patient_name')}")
@@ -203,7 +205,7 @@ def main(pdf_folder):
             result, source = process_pdf(pdf_path)
             
             if result and source:
-                save_to_database(conn, result, source)
+                save_to_database(conn, result, source, pdf_folder)
                 update_checkpoint(conn, os.path.join(pdf_folder, filename))
                 if source == "cc":
                     cc_count += 1
